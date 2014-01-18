@@ -5,16 +5,16 @@
 Point Camera::getCoin() {
 }
 
- Camera::calculAttributs() {
+ void Camera::calculAttributs() {
 }
 
 float Camera::setPas(float p) {
 }
 
- Camera::setTaillex() {
+float Camera::setTaillex() {
 }
 
- Camera::setTailley() {
+float Camera::setTailley() {
 }
 
 float Camera::getTaillex() {

@@ -12,9 +12,9 @@ class Cylindre;
 
 class Sphere : public Objet {
   private:
-    Molecule * ;
+    Molecule * molecule;
 
-    Texture * ;
+    Texture * texture;
 
     Point * possedePoint;
 

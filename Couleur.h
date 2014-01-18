@@ -20,9 +20,7 @@ class Couleur {
     //la multiplicité en 1 permet d'éviter la réutilisation d'une couleur, ce qui empêcherais de la modifier pour un type d'objet sans la modifier pour un autre.
     Texture * appartientATexture;
 
-    Image * ;
-
-    Image * ;
+    Image * image;
 
 };
 #endif

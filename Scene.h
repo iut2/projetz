@@ -18,7 +18,8 @@ class Scene {
 
 
   public:
-     rendu(int resx, int resy);
+      Scene();
+      void rendu(int resx, int resy);
 
 
   private:
@@ -37,7 +38,7 @@ class Scene {
 
 
   public:
-     actualiser(int resx, int resy);
+    void actualiser(int resx, int resy);
 
     //Retourne le rapport entre la résolution suivant x et la résolution suivant y de l'image associée à la scène
     float getRapport();

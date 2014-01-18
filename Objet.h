@@ -8,7 +8,7 @@ class Objet {
   private:
     float rayon;
 
-    Molecule * ;
+    Molecule * molecule;
 
 };
 #endif

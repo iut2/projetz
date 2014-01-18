@@ -37,13 +37,13 @@ class Camera {
 
 
   public:
-     calculAttributs();
+     void calculAttributs();
 
     float setPas(float p);
 
-     setTaillex();
+    float setTaillex();
 
-     setTailley();
+    float setTailley();
 
     float getTaillex();
 

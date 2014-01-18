@@ -11,9 +11,9 @@ class Sphere;
 
 class Cylindre : public Objet {
   private:
-    Molecule * ;
+    Molecule * molecule;
 
-    Texture * ;
+    Texture * texture;
 
     Segment * possedeSegment;
 

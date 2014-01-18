@@ -1,3 +1,4 @@
+using namespace std;
 
 #include "Molecule.h"
 #include "Sphere.h"
@@ -8,6 +9,6 @@
 Point Molecule::calculCentre() {
 }
 
-vector<Objets> Molecule::getObjets() {
+vector<Objet> Molecule::getObjets() {
 }
 
