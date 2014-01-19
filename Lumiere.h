@@ -10,11 +10,14 @@ class Lumiere {
 
   public:
     float getx();
+    void setx();
 
     float gety();
+    void sety);
 
     float getz();
-    
+    void setz();
+
     Point getPoint();
 
 };

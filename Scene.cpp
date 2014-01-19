@@ -5,29 +5,92 @@
 #include "Point.h"
 #include <math.h>
 
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
 //Constructeur de la classe Scene
 Scene::Scene() {
-	//TODO HUGO
+Image new image; //Créér toute les classes avant de faire les setters
+
+    FILE * monFichier;
+
+    // récupération de l'adresse du fichier texte à traiter
+    char name_fichier[50];
+    cout <<"Entrez le nom du fichier molécule :"<<endl;
+    cin >> name_fichier;
+
+    char * mot;
+
+    // ouverture du fichier en mode lecture
+    monFichier=fopen(name_fichier,"r");
+
+    // traitement
+    if (monFichier == NULL) cout<<"Erreur à l'ouverture du fichier"<<endl;
+    else
+    {
+        int nb_mots_lus=0;
+        do
+        {
+            // lecture du mot
+
+            if(fscanf(monFichier, "%[^ ,!]", mot)) // avant on affichait les mots en récursif
+                nb_mots_lus ++;
+            // SETTERS !!
+                if (nb_mots_lus=1){
+                    image.setx(stoi( mot ));
+                }elsif (nb_mots_lus=2){                 // comment rendre ce code en fonction de a (nombre d'atomes);
+                    image.sety(stoi (mot));
+                }
+                // ...... etc
+
+        }while(fgetc(monFichier)!=EOF); // tant qu'on est pas arrivé à la fin du fichier
+    }
+    // a implémenter dans le else
+    // a chaque mot un case correspond
+    //
+    switch(m)
+  {
+  case 1: set;
+          i=i+99;
+          break;
+  case 2: cout<<"PERDU n° 2"<<endl;
+          i=0;
+          break;
+
+
+
+
+
+
+  }
+
+
+
+
+
+    fclose (monFichier);
+    return 0;
 }
 
 //Méthode appelée par l'application utilisant le moteur ; retourne une image bitmap utilisable par wxWidget
 wxImage Scene::rendu(int resx, int resy) {
 	//On actualise les éléments relatifs à notre scène
 	this->actualiser();
-	
+
 	//Après actualisation, nous sommes plaçés dans un repère relatif à la caméra :
 	//		l'axe des x vers le haut,
 	//		des y vers la droite,
 	//		des z vers l'avant.
 	//Le point de vue de l'observateur est alors 0,0,0
-	
+
 	//Création d'une nouvelle image de taille resx,resy ; vierge (noire) grâce au true
 	wxImage image = wxImage(resx,resy,true);
-	
+
 	//TODO on enregistre les paramètres de l'image : à voir si c'est réellement nécéssaire, sinon, supprimer la classe Image
-	
+
 	//on calcule la couleur de chaque pixel de l'image
-	
+
 	//initialisation des variables :
 	//		pix est le point à calculer,
 	//		p le pas à appliquer à chaque itération
@@ -37,20 +100,20 @@ wxImage Scene::rendu(int resx, int resy) {
 	float px = (float)pix.getx();
 	float py = (float)pix.gety();
 	float pz = (float)pix.getz();
-	
+
 	//Objets pour les itérations
 	Cylindre cy;
 	Sphere sp;
 	unsigned int taille_c = this->zbuffer_c.getsize(); //récupération du nombre de cylindres
 	unsigned int taille_s = this->zbuffer_s.getsize(); //récupération du nombre de sphères
-	
-	
-	
+
+
+
 	for (unsigned int x=0 ; x<resx ; x++) {
 		for (unsigned int y=0 ; y<resy ; y++) {
 			//TODO calcul d'un point d'intersection rayon/cylindre : itération sur zbuffer_c
 			//JEAN-DENIS (inspire toi de mon code)
-			
+
 			//Détermination d'un potentiel point d'intersection avec une sphère
 			//Itération sur zbuffer_s
 			for (unsigned int i=0 ; i<taille_s ; i++) {
@@ -72,7 +135,7 @@ wxImage Scene::rendu(int resx, int resy) {
 					float vx = psx - this->m_lumiere.getx();
 					float vy = psy - this->m_lumiere.gety();
 					float vz = psz - this->m_lumiere.getz();
-					
+
 					//On a maintenant deux vecteurs : le rayon partant de la caméra, et celui allant vers la lumière
 					//On peut alors calculer l'angle entre eux, et ainsi définir un "taux" de lumière réfléchie
 					//	calcul du produit scalaire entre les deux vecteurs et des tailles de ces vecteurs
@@ -90,12 +153,12 @@ wxImage Scene::rendu(int resx, int resy) {
 						float frouge = 2 * coul.getRouge() * rapinv;
 						float fvert = 2 * coul.getVert() * rapinv;
 						float fbleu = 2 * coul.getBleu() * rapinv;
-						
+
 						//on vérifie que ces variables ne dépassent pas 255
 						if (frouge>255) frouge=255.0;
 						if (fvert>255) fvert=255.0;
 						if (fbleu>255) fbleu=255.0;
-						
+
 						//on ajoute 0,5 pour faire l'arrondi, car floor() arrondi à la valeur inférieur
 						rouge = floor(frouge + 0.5);
 						vert = floor(fvert + 0.5);
@@ -104,11 +167,11 @@ wxImage Scene::rendu(int resx, int resy) {
 						unsigned char ucr = static_cast<unsigned char>(rouge);
 						unsigned char ucv = static_cast<unsigned char>(vert);
 						unsigned char ucb = static_cast<unsigned char>(bleu);
-						
+
 						wxRect pixel = wxRect(x,y,1,1);
 						image.setRGB(&pixel,ucr,ucv,ucb);
 					} //pas de sinon, l'image est initialisée en noir
-				} 
+				}
 			}
 			// on passe à la colonne suivante
 			py = py + p;
@@ -116,7 +179,7 @@ wxImage Scene::rendu(int resx, int resy) {
 		//on passe à la ligne suivante
 		px = px + p;
 	}//fin itération sur x
-	
+
 	//On retourne l'image obtenue
 	return image;
 
@@ -124,7 +187,7 @@ wxImage Scene::rendu(int resx, int resy) {
 
 //Méthode de calcul de la couleur du pixel donné. Ce pixel appartient donc au plan de vue.
 Couleur Scene::calculCouleur(const Point & pt) {
-	
+
 }
 
  Scene::actualiser(int resx, int resy) {

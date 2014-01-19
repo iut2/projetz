@@ -12,11 +12,11 @@ class Point {
 
     Segment * appartientASegment;
 
-    float x;
+    float m_x;
 
-    float y;
+    float m_y;
 
-    float z;
+    float m_z;
 
     Camera * appartientACamera;
 

@@ -8,10 +8,10 @@ class Scene;
 class Image {
   private:
     //Nombre de pixels de l'image suivant l'axe x
-    int t_x;
+    int m_x;
 
     //Nombre de pixels de l'image suivant l'axe y
-    int t_y;
+    int m_y;
 
     Couleur * ;
 
@@ -23,6 +23,8 @@ class Image {
 
   public:
     int getx();
+    void setx();
+    void sety();
 
 };
 #endif
