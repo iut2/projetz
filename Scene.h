@@ -5,6 +5,8 @@
 #include "Objet.h"
 #include "Couleur.h"
 
+using namespace std;
+
 class Molecule;
 class Camera;
 class Image;
@@ -35,13 +37,13 @@ class Scene {
   public:
     wxImage rendu(int resx, int resy);
 
-
   private:
     
     //Méthode de calcul de la couleur du pixel donné. Ce pixel appartient donc au plan de vue.
     Couleur calculCouleur(const Point & pt);
 
 	actualiser(int resx, int resy);
+	bool compare(Objet obja, Objet objb); //retourne vrai si obja > objb
 
   public:
 

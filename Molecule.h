@@ -12,13 +12,9 @@ class Objet;
 
 class Molecule : public Scene {
   private:
-    Sphere * ;
-
-    Cylindre * ;
-
-    Objet * ;
-
-    Scene * appartientAScene;
+	vector<Sphere> ensSpheres;
+	
+	vector<Cylindre> ensCylindres;
 
 
   public:

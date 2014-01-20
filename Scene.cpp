@@ -56,14 +56,18 @@ wxImage Scene::rendu(int resx, int resy) {
 			for (unsigned int i=0 ; i<taille_s ; i++) {
 				//on récupère la sphère la plus proche suivant z
 				sp = zbuffer_s[i];
-				//On calcul le déterminant delta = b²-4ac , avec b=0
+				//On calcul le déterminant delta = b²-4ac
 				float a = px^2 + py^2 + pz^2;
 				Point m = sp.getCentre(); //On résupère le centre de la sphère
-				float c = - (sp.getRayon()^2 + (float)(m.getx()^2) + (float)(m.gety()^2) + (float)(m.getz()^2);
-				float delta = -4.0 * a * c;
+				float mx = m.getx();
+				float my = m.gety();
+				float mz = m.getz();
+				float b = -2 * (px * mx + py * my + pz * mz);
+				float c = ( mx^2 + my^2 + mz^2 - sp.getRayon()^2);
+				float delta = b^2 - 4.0 * a * c;
 				//Si un point d'intersection existe, on le calcule
 				if (delta > 0) {
-					float k = sqrt(delta)/(2*a);
+					float k = (-b + sqrt(delta))/(2*a);
 					//calcul des coordonnées des points de la sphère
 					float psx = px * k;
 					float psy = py * k;
@@ -122,12 +126,23 @@ wxImage Scene::rendu(int resx, int resy) {
 
 }
 
-//Méthode de calcul de la couleur du pixel donné. Ce pixel appartient donc au plan de vue.
-Couleur Scene::calculCouleur(const Point & pt) {
-	
+bool Scene::compare(Objet obja, Objet objb) {
+	float za = obja.getz();
+	float zb = objb.getz();
+	return za>zb;
 }
 
- Scene::actualiser(int resx, int resy) {
+Scene::actualiser(int resx, int resy) {
+	//calcul des attributs de la caméra
+	float tx = m_camera.getTaillex()
+	m_camera.setTailley(tx*(((float)resy)/((float)resx)));
+	m_camera.setPas(tx/(float)resx));
+	//calcul des zbuffers
+	this->zbuffer_s = this-> m_molecule;
+	this->zbuffer_c = this-> m_molecule;
+	
+	sort(zbuffer_s.begin(), zbuffer_s.end(), compare);
+	sort(zbuffer_c.begin(), zbuffer_c.end(), compare);	
 }
 
 //Retourne le rapport entre la résolution suivant x et la résolution suivant y de l'image associée à la scène
@@ -136,4 +151,3 @@ float Scene::getRapport() {
 
 int Scene::getResx() {
 }
-
