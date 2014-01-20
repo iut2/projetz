@@ -16,11 +16,15 @@ class Sphere : public Objet {
 
     Texture * ;
 
-    Point * possedePoint;
+    Point m_centre;
 
     Texture * sphereUtilise;
 
     Cylindre * aPourLien;
+
+public:
+
+    Point getCentre();
 
 };
 #endif
