@@ -2,21 +2,26 @@
 #include "Segment.h"
 #include "Scene.h"
 
+
 Point Camera::getCoin() {
+    Point p;
+    return p;
 }
 
- Camera::calculAttributs() {
+void Camera::calculAttributs() {
 }
 
 float Camera::setPas(float p) {
+    return 0.0;
 }
 
- Camera::setTaillex() {
+void Camera::setTaillex() {
 }
 
- Camera::setTailley() {
+void Camera::setTailley() {
 }
 
 float Camera::getTaillex() {
+    return 0.0;
 }
 

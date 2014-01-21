@@ -4,4 +4,5 @@
 #include "Texture.h"
 #include "Point.h"
 #include "Cylindre.h"
+#include "Couleur.h"
 

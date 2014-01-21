@@ -13,7 +13,7 @@ class Objet;
 class Molecule : public Scene {
   private:
 	vector<Sphere> ensSpheres;
-	
+
 	vector<Cylindre> ensCylindres;
 
 
@@ -21,7 +21,9 @@ class Molecule : public Scene {
     //calcul du barycentre de la molécule avec une pondération de 1 pour chaque atome
     Point calculCentre();
 
-    vector<Objets> getObjets();
+    vector<Sphere> getSpheres();
+
+    vector<Cylindre> getCylindres();
 
 };
 #endif

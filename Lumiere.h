@@ -5,7 +5,7 @@ class Point;
 
 class Lumiere {
   private:
-    Point m_point;
+    Point * m_point;
 
 
   public:
@@ -14,7 +14,7 @@ class Lumiere {
     float gety();
 
     float getz();
-    
+
     Point getPoint();
 
 };

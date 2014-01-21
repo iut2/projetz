@@ -4,6 +4,8 @@
 
 #include "Point.h"
 
+using namespace std;
+
 class Segment;
 class Scene;
 
@@ -27,8 +29,7 @@ class Camera {
 
 
   public:
-    Point getCoin();
-
+    Point getCoin(); //retourne le coin haut-gauche de l'écran de projection
 
   private:
     //pas pour le changement du pixel courant (lors du calcul de rendu)
@@ -46,6 +47,8 @@ class Camera {
     void setTailley();
 
     float getTaillex();
+
+    float getPas();
 
 };
 #endif

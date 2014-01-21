@@ -11,15 +11,11 @@ class Sphere;
 
 class Cylindre : public Objet {
   private:
-    Molecule * ;
+    Segment * m_segment;
 
-    Texture * ;
+    Sphere * m_sphere1;
 
-    Segment * possedeSegment;
-
-    Texture * cylindreUtilise;
-
-    Sphere * lieSpheres;
+    Sphere * m_sphere2;
 
 };
 #endif

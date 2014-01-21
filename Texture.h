@@ -9,15 +9,7 @@ class Couleur;
 //Classe contenant la description d'une texture
 class Texture {
   private:
-    Sphere * ;
-
-    Cylindre * ;
-
-    Sphere * estUtiliseParSphere;
-
-    Cylindre * estUtiliseParCylindre;
-
-    Couleur * aPourCouleur;
+    Couleur * m_couleur;
 
 };
 #endif

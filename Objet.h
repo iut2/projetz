@@ -3,12 +3,16 @@
 
 
 class Molecule;
+class Texture;
 
 class Objet {
   private:
     float rayon;
+    Texture * m_texture;
 
-    Molecule m_molecule ;
+  public:
+    float getRayon();
+    virtual float getz(); //récupération du z, à redéfinir dans les héritages
 
 };
 #endif

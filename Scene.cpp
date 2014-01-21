@@ -3,17 +3,21 @@
 #include "Camera.h"
 #include "Image.h"
 #include "Point.h"
+#include "Sphere.h"
+#include "Cylindre.h"
+#include "Lumiere.h"
 #include <math.h>
 
+
 //Constructeur de la classe Scene
-Scene::Scene() {
+//Scene::Scene() {
 	//TODO HUGO
-}
+//}
 
 //Méthode appelée par l'application utilisant le moteur ; retourne une image bitmap utilisable par wxWidget
 wxImage Scene::rendu(int resx, int resy) {
 	//On actualise les éléments relatifs à notre scène
-	this->actualiser();
+	this->actualiser(resx,resy);
 
 	//Après actualisation, nous sommes plaçés dans un repère relatif à la caméra :
 	//		l'axe des x vers le haut,
@@ -31,23 +35,23 @@ wxImage Scene::rendu(int resx, int resy) {
 	//initialisation des variables :
 	//		pix est le point à calculer,
 	//		p le pas à appliquer à chaque itération
-	Point pix = m_camera.getCoin();
-	float p = m_camera.getPas();
+	Point pix = (*m_camera).getCoin();
+	float p = (*m_camera).getPas();
 	//Initialisation des coordonnées du pixel courant
 	float px = (float)pix.getx();
 	float py = (float)pix.gety();
 	float pz = (float)pix.getz();
 
 	//Objets pour les itérations
-	Cylindre cy;
+//	Cylindre cy;
 	Sphere sp;
-	unsigned int taille_c = this->zbuffer_c.getsize(); //récupération du nombre de cylindres
-	unsigned int taille_s = this->zbuffer_s.getsize(); //récupération du nombre de sphères
+//	unsigned int taille_c = this->zbuffer_c.size(); //récupération du nombre de cylindres
+	unsigned int taille_s = this->zbuffer_s.size(); //récupération du nombre de sphères
 
 
 
-	for (unsigned int x=0 ; x<resx ; x++) {
-		for (unsigned int y=0 ; y<resy ; y++) {
+	for (int x=0 ; x<resx ; x++) {
+		for (int y=0 ; y<resy ; y++) {
 			//TODO calcul d'un point d'intersection rayon/cylindre : itération sur zbuffer_c
 			//JEAN-DENIS (inspire toi de mon code)
 
@@ -57,14 +61,15 @@ wxImage Scene::rendu(int resx, int resy) {
 				//on récupère la sphère la plus proche suivant z
 				sp = zbuffer_s[i];
 				//On calcul le déterminant delta = b²-4ac
-				float a = px^2 + py^2 + pz^2;
+				float a = px*px + py*py + pz*pz;
 				Point m = sp.getCentre(); //On résupère le centre de la sphère
 				float mx = m.getx();
 				float my = m.gety();
 				float mz = m.getz();
+				float r = sp.getRayon();
 				float b = -2 * (px * mx + py * my + pz * mz);
-				float c = ( mx^2 + my^2 + mz^2 - sp.getRayon()^2);
-				float delta = b^2 - 4.0 * a * c;
+				float c = ( mx*mx + my*my + mz*mz - r*r);
+				float delta = b*b - 4.0 * a * c;
 				//Si un point d'intersection existe, on le calcule
 				if (delta > 0) {
 					float k = (-b + sqrt(delta))/(2*a);
@@ -73,22 +78,22 @@ wxImage Scene::rendu(int resx, int resy) {
 					float psy = py * k;
 					float psz = pz * k;
 					//calcul du vecteur lumière vers point sphère
-					float vx = psx - this->m_lumiere.getx();
-					float vy = psy - this->m_lumiere.gety();
-					float vz = psz - this->m_lumiere.getz();
+					float vx = psx - (*this->m_lumiere).getx();
+					float vy = psy - (*this->m_lumiere).gety();
+					float vz = psz - (*this->m_lumiere).getz();
 
 					//On a maintenant deux vecteurs : le rayon partant de la caméra, et celui allant vers la lumière
 					//On peut alors calculer l'angle entre eux, et ainsi définir un "taux" de lumière réfléchie
 					//	calcul du produit scalaire entre les deux vecteurs et des tailles de ces vecteurs
 					float scal = px * vx + py * vy + pz * vz;
-					float taille_p = sqrt(px^2 + py^2 + pz^2);
-					float taille_v = sqrt(vx^2 + vy^2 + vz^2);
-					float angle = acos(scal/(taille_p*taille_v);
+					float taille_p = sqrt(px*px + py*py + pz*pz);
+					float taille_v = sqrt(vx*vx + vy*vy + vz*vz);
+					float angle = acos(scal/(taille_p*taille_v));
 					float rapport = angle / (M_PI/2);
 					//variables pour les couleurs
 					int rouge, vert, bleu;
 					if (rapport<1) {
-						rapinv = 1-rapport;
+						float rapinv = 1-rapport;
 						Couleur coul = sp.getCouleur();
 						//on calcule la couleur du pixel
 						float frouge = 2 * coul.getRouge() * rapinv;
@@ -132,11 +137,11 @@ bool Scene::compare(Objet obja, Objet objb) {
 	return za>zb;
 }
 
-Scene::actualiser(int resx, int resy) {
+void Scene::actualiser(int resx, int resy) {
 	//calcul des attributs de la caméra
-	float tx = m_camera.getTaillex()
-	m_camera.setTailley(tx*(((float)resy)/((float)resx)));
-	m_camera.setPas(tx/(float)resx));
+	float tx = (*m_camera).getTaillex();
+	(*m_camera).setTailley(tx*(((float)resy)/((float)resx)));
+	(*m_camera).setPas(tx/(float)resx));
 	//calcul des zbuffers
 	this->zbuffer_s = this-> m_molecule;
 	this->zbuffer_c = this-> m_molecule;
@@ -152,8 +157,5 @@ Scene::actualiser(int resx, int resy) {
 }
 
 //Retourne le rapport entre la résolution suivant x et la résolution suivant y de l'image associée à la scène
-float Scene::getRapport() {
-}
-
-int Scene::getResx() {
-}
+//float Scene::getRapport() {
+//}

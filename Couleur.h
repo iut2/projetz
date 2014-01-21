@@ -17,5 +17,12 @@ class Couleur {
     //Valeur RVB pour le bleu : la couleur est contenue dans un entier compris entre 0 et 255
     int bleu;
 
+  public:
+    int getRouge();
+    int getVert();
+    int getBleu();
+
+
+
 };
 #endif

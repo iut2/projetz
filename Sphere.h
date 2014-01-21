@@ -3,28 +3,33 @@
 
 //TEST DE PUSH
 
+#include <vector>
 #include "Objet.h"
+
+using namespace std;
 
 class Molecule;
 class Texture;
 class Point;
 class Cylindre;
+class Couleur;
 
 class Sphere : public Objet {
   private:
-    Molecule * ;
-
-    Texture * ;
-
     Point m_centre;
 
-    Texture * sphereUtilise;
+    Texture * m_texture;
 
-    Cylindre * aPourLien;
+    //on ne définit pas les cylindres utilisés ici, on en a pas besoin.
+    vector<Sphere> ensSpheresLiees;
 
 public:
 
     Point getCentre();
+
+    Couleur getCouleur();
+
+    Texture getTexture();
 
 };
 #endif
