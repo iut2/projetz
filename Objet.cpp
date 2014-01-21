@@ -7,3 +7,6 @@ float Objet::getRayon() {
     return this->rayon;
 }
 
+void Objet::setRayon(float r) {
+    rayon = r;
+}

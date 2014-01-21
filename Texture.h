@@ -10,6 +10,12 @@ class Couleur;
 class Texture {
   private:
     Couleur * m_couleur;
+    
+public :
+    
+    Texture(int r, int v, int b);
+    
+    Couleur getCouleur();
 
 };
 #endif

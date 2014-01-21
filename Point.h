@@ -8,9 +8,9 @@ class Camera;
 
 class Point {
   private:
-    Sphere * appartientA;
 
-    Segment * appartientASegment;
+
+
 
     float x;
 
@@ -18,15 +18,25 @@ class Point {
 
     float z;
 
-    Camera * appartientACamera;
+
 
 
   public:
+      
+    
+    Point(float mx, float my, float mz);
+
     float getx();
 
     float gety();
 
     float getz();
+
+    void setx(float x);
+
+    void sety(float y);
+
+    void setz(float z);
 
 };
 #endif

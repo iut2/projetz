@@ -44,6 +44,7 @@ class Scene {
 
   public:
     wxImage rendu(int resx, int resy);
+    wxImage renduSimple(int resx, int resy);
 
   private:
 
@@ -57,6 +58,18 @@ class Scene {
 
     //Retourne le rapport entre la résolution suivant x et la résolution suivant y de l'image associée à la scène
  //   float getRapport();
+
+//Changement de repère
+//rx, ry, rz : angles suivant axes respectifs
+//tx, ty, tz : translation suivant axes respectifs
+//p : point à déplacer
+    Point changementRepere(Point p, float rx,float ry, float rz, float tx, float ty, float tz);
+
+Molecule chgtRepBary(Molecule m);
+
+Molecule rotationMolecule(Molecule m, float angleX, float angleY, float angleZ);
+
+Molecule retourRepAvBary(Molecule m);
 
 };
 #endif

@@ -7,15 +7,17 @@ class Cylindre;
 class Camera;
 
 class Segment {
+
+  public:
+
+   Segment(Point*p1, Point *p2);
+   float gettaille();
+
   private:
-    Point * point;
+    Point * point1, * point2;
 
     Cylindre * appartientACylindre;
 
     Camera * appartientA;
-
-    //Longueur du segment, de type réel. Calculée à partir des points qui constituent le segment.
-    float longueur;
-
 };
 #endif

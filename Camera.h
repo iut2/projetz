@@ -42,9 +42,9 @@ class Camera {
 
     float setPas(float p);
 
-    void setTaillex();
+    void setTaillex(float tx);
 
-    void setTailley();
+    void setTailley(float ty);
 
     float getTaillex();
 

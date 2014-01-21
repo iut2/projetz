@@ -3,6 +3,9 @@
 
 
 #include "Objet.h"
+#include "Segment.h"
+#include "Sphere.h"
+#include <stdlib.h>
 
 class Molecule;
 class Texture;
@@ -10,6 +13,12 @@ class Segment;
 class Sphere;
 
 class Cylindre : public Objet {
+  public :
+    Cylindre(Sphere *S1 = NULL, Sphere *S2 = NULL);
+    inline float gethauteur() { return m_segment->gettaille(); }
+	inline Sphere getsphere1() {return *m_sphere1;}
+	inline Sphere getsphere2() {return *m_sphere2;}
+
   private:
     Segment * m_segment;
 
