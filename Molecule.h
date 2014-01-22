@@ -13,19 +13,19 @@ class Objet;
 class Molecule : public Scene {
   private:
         vector<Sphere> ensSpheres;
-        
+
         vector<Cylindre> ensCylindres;
 
         Point m_centre;
-        
+
     //calcul du barycentre de la molécule avec une pondération de 1 pour chaque atome
     Point calculCentre();
 
 
   public:
-      
-    Molecule();  
-      
+
+    Molecule();
+
     Point getCentre();
 
     vector<Sphere> getSpheres();
@@ -33,11 +33,11 @@ class Molecule : public Scene {
     vector<Cylindre> getCylindres();
 
     int getnbSpheres();
-    
+
     int getnbCylindres();
-    
+
     void ajouterSphere(Sphere s);
-    
+
     void ajouterCylindre(Cylindre c);
 
 };

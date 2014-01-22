@@ -71,5 +71,7 @@ Molecule rotationMolecule(Molecule m, float angleX, float angleY, float angleZ);
 
 Molecule retourRepAvBary(Molecule m);
 
+void dessineSeg(Segment s, wxImage &img);
+
 };
 #endif

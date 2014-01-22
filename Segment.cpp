@@ -1,8 +1,9 @@
-
 #include "Segment.h"
 #include "Point.h"
 #include "Cylindre.h"
 #include "Camera.h"
+#include <stdio.h>
+#include <math.h>
 
 Segment::Segment(Point* p1, Point* p2)
 {
@@ -12,10 +13,17 @@ Segment::Segment(Point* p1, Point* p2)
 
 float Segment::gettaille()
 {
-    x = p2->getx() - p1->getx();
-    y = p2->gety() - p1->gety();
-    z = p2->getz() - p1->getz();
+    float x = point2->getx() - point1->getx();
+    float y = point2->gety() - point1->gety();
+    float z = point2->getz() - point1->getz();
 
-   return sqrt(x²+y²+z²);
+   return sqrt(x*x+y*y+z*z);
 
 }
+
+   Point Segment::getPoint1(){
+        return *point1;
+   }
+   Point Segment::getPoint2(){
+        return *point2;
+   }

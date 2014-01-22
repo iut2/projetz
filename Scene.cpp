@@ -253,6 +253,7 @@ bool Scene::compare(Objet obja, Objet objb) {
 	float zb = objb.getz();
 	return za>zb;
 }
+
 /*DEB
 void Scene::actualiser(int resx, int resy) {
 	//calcul des attributs de la caméra
@@ -285,38 +286,10 @@ FIN*/
 //float Scene::getRapport() {
 //}
 
-//Changement de repère
-//rx, ry, rz : angles suivant axes respectifs
-//tx, ty, tz : translation suivant axes respectifs
-//p : point à déplacer
-Point Scene::changementRepere(Point p, float rx,float ry, float rz, float tx, float ty, float tz) {
-
-
-float x,y,z,x2,y2,z2;
-
-x = p.getx();
-y = p.gety();
-z = p.getz();
-Point p2;
-
-
-
-x2 = (tx + x) * (cos(ry) * cos(rz)) + (ty + y) * ( -sin(rz) * cos(rx) + sin(rx) * sin(ry) * cos(rz)) + (tz + z) * (sin(rz) * sin(rx) + cos(rx) * cos(rz) * sin(ry));
-
-y2 = (tx + x) * (cos(ry) * sin(rz)) + (ty + y) * ( cos(rx) * cos(rz) + sin(rx) * sin(ry) * sin(rz)) + (tz + z) * (cos(rz) * -sin(rx) + cos(rx) * sin(ry) * sin(rz));
-
-z2 = (tx + x) * (-sin(ry)) + (ty + y) * (cos(ry) * sin(rx)) + (tx + x) * (cos(rx) * cos(ry));
-
-p2 = new Point(x2,y2,z2);
-
-return p2;
-
-}
 
 Molecule Scene::chgtRepBary(Molecule m){
 
     Point bary;
-    int i;
     float bx,by,bz,sx,sy,sz,nx,ny,nz;
 
     Sphere s;
@@ -328,9 +301,11 @@ Molecule Scene::chgtRepBary(Molecule m){
     by = bary.gety();
     bz = bary.getz();
 
-    for(i=1;i<=m.ensSpheres.size();i++) {
+    vector<Sphere> ensS = m.getSpheres();
 
-        s = m.ensSpheres[i];
+    for(unsigned int i=0;i<ensS.size();i++) {
+
+        s = ensS[i];
         p = s.getCentre();
 
         sx = p.getx();
@@ -357,14 +332,15 @@ Molecule Scene::chgtRepBary(Molecule m){
 
 Molecule rotationMolecule(Molecule m, float angleX, float angleY, float angleZ) {
 
-    int i;
     float sx,sy,sz,nx,ny,nz;
     Sphere s;
     Point p;
 
-    for(i=1;i<=m.ensSpheres.size();i++) {
+    vector<Sphere> ensS = m.getSpheres();
 
-        s = m.ensSpheres[i];
+    for(unsigned int i=0;i<ensS.size();i++) {
+
+        s = ensS[i];
         p = s.getCentre();
 
         sx = p.getx();
@@ -375,7 +351,7 @@ Molecule rotationMolecule(Molecule m, float angleX, float angleY, float angleZ) 
 
         ny = sx * cos(angleY) * sin(angleZ) + sy * (cos(angleX) * cos(angleZ) + sin(angleX) * sin(angleZ) * sin(angleY)) + sz * ( cos(angleZ) * -sin(angleX) + cos(angleX) * sin(angleZ) * sin(angleY));
 
-        nz = sx * -sin(angleY) + sy * cos(angleY) * cos sin(angleX) + sz * cos(angleX) * cos(angleY);
+        nz = sx * -sin(angleY) + sy * cos(angleY) * sin(angleX) + sz * cos(angleX) * cos(angleY);
 
         p.setx(nx);
         p.sety(ny);
@@ -391,7 +367,6 @@ Molecule rotationMolecule(Molecule m, float angleX, float angleY, float angleZ) 
 Molecule Scene::retourRepAvBary(Molecule m){
 
     Point bary;
-    int i;
     float bx,by,bz,sx,sy,sz,nx,ny,nz;
 
     Sphere s;
@@ -403,9 +378,11 @@ Molecule Scene::retourRepAvBary(Molecule m){
     by = bary.gety();
     bz = bary.getz();
 
-    for(i=1;i<=m.ensSpheres.size();i++) {
+    vector<Sphere> ensS = m.getSpheres();
 
-        s = m.ensSpheres[i];
+    for(unsigned int i=0;i<ensS.size();i++) {
+
+        s = ensS[i];
         p = s.getCentre();
 
         sx = p.getx();
@@ -427,5 +404,39 @@ Molecule Scene::retourRepAvBary(Molecule m){
 
     return m;
 
+
+}
+
+
+void Scene::dessineSeg(Segment s, wxImage &img) {
+
+    float x1,x2,x;
+    float y1,y2,y;
+    Point p1,p2;
+    float a, b;
+
+    p1 = s.getPoint1();
+    p2 = s.getPoint2();
+
+    x1 = p1.getx();
+    x2 = p2.getx();
+    y1 = p1.gety();
+    y2 = p2.gety();
+    a = (y2 - y1)/(x2 - x1);
+    b = y2 - a*x2;
+
+    wxImage img = wxImage(640,480,true);
+
+    //TRAITEMENT DE L'IMAGE, REMPLACÉ PAR LA SUITE PAR RENDU()
+    for(unsigned int i = 0; i<640; i++) {
+        if (i>x1 && i<x2) {
+            unsigned char r = 255;
+            unsigned char vb = 0;
+            x = i;
+            y = a*x + b;
+
+            img.SetRGB(x,y,r,vb,vb);
+        }
+    }
 
 }

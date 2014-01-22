@@ -42,5 +42,7 @@ public:
 
     void ajouterLiaison(int num); //ajoute le numéro de la sphère liée
 
+    float getz();
+
 };
 #endif
