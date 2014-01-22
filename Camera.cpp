@@ -5,7 +5,15 @@
 
 Point Camera::getCoin() {
     Point p;
-    ///////////////////////pourquoi on donne pas un point a la fonction, fonction inutile???
+    p = this->m_segment->getPoint2();
+    float px = p.getx();
+    float py = p.gety();
+
+    px = px + taille_x/2.0;
+    py = py + taille_y/2.0;
+
+    p.setx(px);
+    p.sety(py);
 
     return p;
 }
@@ -18,9 +26,11 @@ float Camera::setPas(float p) {
 }
 
 void Camera::setTaillex(float tx) {
+    this->taille_x = tx;
 }
 
 void Camera::setTailley(float ty) {
+    this->taille_y = ty;
 }
 
 float Camera::getTaillex() {

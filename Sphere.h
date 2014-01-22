@@ -27,9 +27,9 @@ class Sphere : public Objet {
     int m_numero;
 
 public:
-    
-    Sphere(Point centre, int r, int v, int b);
-    
+
+    Sphere(Point centre = Point(), int r = 0, int v = 0, int b = 0);
+
     Point getCentre();
 
     Couleur getCouleur();

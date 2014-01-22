@@ -18,7 +18,7 @@ using namespace std;
 //Scene::Scene() {
 	//TODO HUGO
 //}
-
+/*DEB
 //Méthode appelée par l'application utilisant le moteur ; retourne une image bitmap utilisable par wxWidget
 wxImage Scene::rendu(int resx, int resy) {
 	//On actualise les éléments relatifs à notre scène
@@ -143,7 +143,7 @@ wxImage Scene::rendu(int resx, int resy) {
 
                             //wxRect pixel = wxRect(x,y,1,1);
                             int x, y;
-                            image.setRGB(x, y, ucr, ucv, ucb);
+                            image.SetRGB(x, y, ucr, ucv, ucb);
                         } //pas de sinon, l'image est initialisée en noir
                     }//pas de sinon car caché
 				}
@@ -157,7 +157,7 @@ wxImage Scene::rendu(int resx, int resy) {
 				sp = zbuffer_s[i];
 				//On calcul le déterminant delta = b²-4ac
 				float a = px*px + py*py + pz*pz;
-				Point m = sp.getCentre(); //On résupère le centre de la sphère
+				Point m = sp.getCentre(); //On récupère le centre de la sphère
 				float mx = m.getx();
 				float my = m.gety();
 				float mz = m.getz();
@@ -186,7 +186,6 @@ wxImage Scene::rendu(int resx, int resy) {
 					float angle = acos(scal/(taille_p*taille_v));
 					float rapport = angle / (M_PI/2);
 					//variables pour les couleurs
-					int rouge, vert, bleu;
 					if (rapport<1) {
 						float rapinv = 1-rapport;
 						Couleur coul = sp.getCouleur();
@@ -201,19 +200,17 @@ wxImage Scene::rendu(int resx, int resy) {
 						if (fbleu>255) fbleu=255.0;
 
 						//on ajoute 0,5 pour faire l'arrondi, car floor() arrondi à la valeur inférieur
-						rouge = floor(frouge + 0.5);
-						vert = floor(fvert + 0.5);
-						bleu = floor(fbleu + 0.5);
+						float rouge = floor(frouge + 0.5);
+						float vert = floor(fvert + 0.5);
+						float bleu = floor(fbleu + 0.5);
 						//on converti en unsigned char
-						/*unsigned char ucr = static_cast<unsigned char>(rouge);
+						unsigned char ucr = static_cast<unsigned char>(rouge);
 						unsigned char ucv = static_cast<unsigned char>(vert);
-						unsigned char ucb = static_cast<unsigned char>(bleu);*/
-						int x1, y1;
-						unsigned char red, green, blue;
+						unsigned char ucb = static_cast<unsigned char>(bleu);
 
 						//wxRect pixel = wxRect(x,y,1,1);
 						//image.setRGB(&pixel,ucr,ucv,ucb);
-						image.setRGB(x1, y1, red, green, blue);
+						image.SetRGB(x, y, ucr, ucv, ucb);
 					} //pas de sinon, l'image est initialisée en noir
 				}
 			}
@@ -228,23 +225,26 @@ wxImage Scene::rendu(int resx, int resy) {
 	return image;
 
 }
+FIN*/
 
 //Méthode de rendu simplifiée
 wxImage Scene::renduSimple(int resx, int resy) {
+	wxImage img = wxImage(resx,resy,true);
+
 	//actualisation simplifiée
 	float tx = (*m_camera).getTaillex();
 	(*m_camera).setTailley(tx*(((float)resy)/((float)resx)));
 	(*m_camera).setPas(tx/(float)resx);
 
 	//récupération des points à projeter
-	vector<Sphere> ensSpheres = this->m_molecule.getSpheres();
+	vector<Sphere> ensSpheres = this->m_molecule->getSpheres();
 
-	nbatomes = ensSpheres.size();
+	unsigned int nbatomes = ensSpheres.size();
 
 	for (unsigned int i = 0; i<nbatomes; i++) {
         //faire projection+visualisation+calcul rayon+tracage sphere
 	}
-
+    return img;
 }
 
 
@@ -253,7 +253,7 @@ bool Scene::compare(Objet obja, Objet objb) {
 	float zb = objb.getz();
 	return za>zb;
 }
-
+/*DEB
 void Scene::actualiser(int resx, int resy) {
 	//calcul des attributs de la caméra
 	float tx = (*m_camera).getTaillex();
@@ -261,10 +261,10 @@ void Scene::actualiser(int resx, int resy) {
 	(*m_camera).setPas(tx/(float)resx);
 	//calcul des zbuffers
 	for (int i; zbuffer_s.size(); i++){
-        this.zbuffer_s[i] = this.m_molecule.getSpheres[i];
+        this->zbuffer_s[i] = this->m_molecule->getSpheres[i];
 	}
 	for (int j; zbuffer_c.size(); j++){
-        this.zbuffer_c[j] = this.m_molecule.getCylindres[j];///////////////////////////////////////////////////////chelou
+        this->zbuffer_c[j] = this->m_molecule->getCylindres[j];///////////////////////////////////////////////////////chelou
 	}
 
 /* ENLEVÉ, la caméra ne bouge plus
@@ -276,11 +276,11 @@ void Scene::actualiser(int resx, int resy) {
         ptprime =
         zbuffer_s[i].setCentre();
 	}
-*/
+*//*
 	sort (zbuffer_s.begin(), zbuffer_s.end(), compare);
 	sort (zbuffer_c.begin(), zbuffer_c.end(), compare);
 }
-
+FIN*/
 //Retourne le rapport entre la résolution suivant x et la résolution suivant y de l'image associée à la scène
 //float Scene::getRapport() {
 //}

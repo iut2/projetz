@@ -9,9 +9,6 @@ class Camera;
 class Point {
   private:
 
-
-
-
     float x;
 
     float y;
@@ -22,9 +19,9 @@ class Point {
 
 
   public:
-      
-    
-    Point(float mx, float my, float mz);
+
+
+    Point(float mx = 0.0, float my = 0.0, float mz = 0.0);
 
     float getx();
 

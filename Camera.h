@@ -20,9 +20,7 @@ class Camera {
     //Il est calculé en fonction de la taille de l'image voulue suivant y
     float taille_y;
 
-    Segment * possedeSegment;
-
-    Scene * scene;
+    Segment * m_segment;
 
     //Point représentant le haut pour la caméra.
     Point * PointHaut;
