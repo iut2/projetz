@@ -7,6 +7,8 @@
 #include "Objet.h"
 #include "Point.h"
 
+class Scene;
+
 using namespace std;
 
 class Molecule;
@@ -21,8 +23,10 @@ class Sphere : public Objet {
 
     Texture * m_texture;
 
+    Scene * m_scene;
+
     //on ne définit pas les cylindres utilisés ici, on en a pas besoin.
-    vector<int> ensSpheresLiees;
+    vector<Sphere> ensSpheresLiees;
 
     int m_numero;
 
@@ -38,11 +42,15 @@ public:
 
     void setCentre(Point p);
 
+	void ajoutSphere(Sphere s) {ensSpheresLiees.push_back(s);}
+
     void setNum(int num);
 
-    void ajouterLiaison(int num); //ajoute le numéro de la sphère liée
+    void ajouterLiaison(int num); //ajoute la sphère liée
 
     float getz();
+
+    Sphere projeter(float zp);
 
 };
 #endif

@@ -10,6 +10,12 @@ Molecule::Molecule() {
     this->m_centre = calculCentre();
 }
 
+Molecule::Molecule(Point centre, vector<Sphere> ensS, vector<Cylindre> ensC) {
+    this->m_centre = centre;
+    this->ensSpheres = ensS;
+    this->ensCylindres = ensC;
+}
+
 
 //calcul du barycentre de la mol�cule avec une pond�ration de 1 pour chaque atome
 Point Molecule::calculCentre() {
@@ -77,3 +83,23 @@ Point Molecule::getCentre() {
     return this->m_centre;
 }
 
+Molecule Molecule::projeter(float zp) {
+    vector<Sphere> m_ensS = this->getSpheres();
+    vector<Cylindre> m_ensC = this->getCylindres();
+    unsigned int nbs = m_ensS.size();
+    unsigned int nbc = m_ensC.size();
+    vector<Sphere> ensS;
+    vector<Cylindre> ensC;
+
+    for(unsigned int i = 0; i<nbs; i++) {
+        ensS[i] = m_ensS[i].projeter(zp);
+    }
+
+    for (unsigned int i = 0; i<nbc; i++) {
+        ensC[i] = m_ensC[i].projeter(zp);
+    }
+
+    Point bary = this->m_centre.projeter(zp);
+    Molecule m(bary,ensS,ensC);
+    return m;
+}

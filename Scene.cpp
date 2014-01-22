@@ -3,8 +3,6 @@
 #include "Camera.h"
 #include "Image.h"
 #include "Point.h"
-#include "Sphere.h"
-#include "Cylindre.h"
 #include "Lumiere.h"
 #include "wx/image.h"
 #include <math.h>
@@ -14,10 +12,14 @@
 
 using namespace std;
 
-//Constructeur de la classe Scene
-//Scene::Scene() {
-	//TODO HUGO
-//}
+Scene::Scene() {}
+
+/*JEAN DENIS
+Scene::Scene(Point p2,float tx, int res_x, int res_y, float x, float y, float z) : m_molecule(), m_camera(x,res_x,res_y,p2), m_lumiere(x,y,z)
+{
+    zbuffer_c = new vector<Sphere>;
+    zbuffer_s = new vector<Cylindre>;
+}*/
 /*DEB
 //Méthode appelée par l'application utilisant le moteur ; retourne une image bitmap utilisable par wxWidget
 wxImage Scene::rendu(int resx, int resy) {
@@ -227,30 +229,10 @@ wxImage Scene::rendu(int resx, int resy) {
 }
 FIN*/
 
-//Méthode de rendu simplifiée
-wxImage Scene::renduSimple(int resx, int resy) {
-	wxImage img = wxImage(resx,resy,true);
 
-	//actualisation simplifiée
-	float tx = (*m_camera).getTaillex();
-	(*m_camera).setTailley(tx*(((float)resy)/((float)resx)));
-	(*m_camera).setPas(tx/(float)resx);
-
-	//récupération des points à projeter
-	vector<Sphere> ensSpheres = this->m_molecule->getSpheres();
-
-	unsigned int nbatomes = ensSpheres.size();
-
-	for (unsigned int i = 0; i<nbatomes; i++) {
-        //faire projection+visualisation+calcul rayon+tracage sphere
-	}
-    return img;
-}
-
-
-bool Scene::compare(Objet obja, Objet objb) {
-	float za = obja.getz();
-	float zb = objb.getz();
+bool Scene::compare(Objet * obja, Objet * objb) {
+	float za = obja->getz();
+	float zb = objb->getz();
 	return za>zb;
 }
 
@@ -408,35 +390,90 @@ Molecule Scene::retourRepAvBary(Molecule m){
 }
 
 
-void Scene::dessineSeg(Segment s, wxImage &img) {
+wxImage Scene::renduSimple(vector<Segment> listeSeg){
 
-    float x1,x2,x;
-    float y1,y2,y;
-    Point p1,p2;
-    float a, b;
+//TEST RENDU
 
-    p1 = s.getPoint1();
-    p2 = s.getPoint2();
+wxImage img = wxImage(640,480,true);
 
-    x1 = p1.getx();
-    x2 = p2.getx();
-    y1 = p1.gety();
-    y2 = p2.gety();
-    a = (y2 - y1)/(x2 - x1);
-    b = y2 - a*x2;
+    for(unsigned int j=0;j<listeSeg.size();j++) {
 
-    wxImage img = wxImage(640,480,true);
+        Segment s = listeSeg[j];
 
-    //TRAITEMENT DE L'IMAGE, REMPLACÉ PAR LA SUITE PAR RENDU()
-    for(unsigned int i = 0; i<640; i++) {
-        if (i>x1 && i<x2) {
-            unsigned char r = 255;
-            unsigned char vb = 0;
-            x = i;
-            y = a*x + b;
+        float x1,x2,x;
+        float y1,y2,y;
+        Point p1,p2;
+        float a, b;
 
-            img.SetRGB(x,y,r,vb,vb);
+        p1 = s.getPoint1();
+        p2 = s.getPoint2();
+
+        x1 = p1.getx();
+        x2 = p2.getx();
+        y1 = p1.gety();
+        y2 = p2.gety();
+        a = (y2 - y1)/(x2 - x1);
+        b = y2 - a*x2;
+
+        for(unsigned int i = 0; i<640; i++) {
+            if (i>x1 && i<x2) {
+                unsigned char r = 255;
+                unsigned char vb = 0;
+                x = i;
+                y = a*x + b;
+
+                img.SetRGB(x,y,vb,r,vb);
+            }
         }
-    }
 
+    }
+    return img;
+}
+
+/*
+Segment Scene::projeter(vector<Segment> listeSeg){
+vector <Cylindre> enscylindres = molecule.getCylindres();
+enssegments = new vector <segment>;
+for ( int i=0; i<enscylindres.size() ; i++ ) {
+
+//TODO methode getsegment dans cylindre.cpp(kevin)
+enssegments.push_back(enscylindres[i].getsegment());
+}
+
+return enssegments
+*/
+
+Molecule Scene::projeter() {
+    float zp = this->m_camera->getFocale();
+    return this->m_molecule->projeter(zp);
+}
+
+
+
+vector<Segment> Scene::getObjEcran() {
+    vector<Cylindre> ensC = this->projeter().getCylindres();
+    unsigned int nbc = ensC.size();
+    vector<Segment> ensSeg;
+    for(unsigned int i = 0; i<nbc; i++) {
+        ensSeg.push_back(*(ensC[i].getSegment()));
+    }
+    return ensSeg;
+}
+
+void Scene::initMolecule() {
+    cout << "Création d'une nouvelle molécule\n\n";//non achevée
+}
+
+void Scene::setMolecule(Molecule mol) {
+    this->m_molecule = &mol;
+}
+
+
+void Scene::enregSphere(Sphere * sp, int num) {
+    this->mapSpheres[num] = *sp;
+}
+
+Sphere Scene::chercheSphere(int i) {
+    map<int,Sphere>::const_iterator mit(this->mapSpheres.find(i));
+    return mit->second;
 }

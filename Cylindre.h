@@ -19,6 +19,8 @@ class Cylindre : public Objet {
 	inline Sphere getsphere1() {return *m_sphere1;}
 	inline Sphere getsphere2() {return *m_sphere2;}
 	float getz(); //retourne le z du point le plus proche
+	Cylindre projeter(float zp);
+	Segment * getSegment();
 
   private:
     Segment * m_segment;

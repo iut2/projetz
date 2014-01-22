@@ -13,7 +13,7 @@ class Objet {
   public:
     float getRayon();
     void setRayon(float r);
-    float getz(); //récupération du z, à redéfinir dans les héritages
+    virtual float getz() = 0; //récupération du z, à redéfinir dans les héritages
 
 };
 #endif

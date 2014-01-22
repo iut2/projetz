@@ -34,3 +34,14 @@ void Point::sety(float y) {
 void Point::setz(float z) {
     this->z = z;
 }
+
+Point Point::projeter(float zp) {
+    float xdep = this->getx();
+    float ydep = this->gety();
+
+    float xfin = (-zp * xdep)/(1-zp);
+    float yfin = (-zp * ydep)/(1-zp);
+
+    Point pfin(xfin,yfin,0);
+    return pfin;
+}

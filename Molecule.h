@@ -26,6 +26,8 @@ class Molecule : public Scene {
 
     Molecule();
 
+    Molecule(Point centre, vector<Sphere> ensS, vector<Cylindre> ensC);
+
     Point getCentre();
 
     vector<Sphere> getSpheres();
@@ -39,6 +41,8 @@ class Molecule : public Scene {
     void ajouterSphere(Sphere s);
 
     void ajouterCylindre(Cylindre c);
+
+    Molecule projeter(float zp);
 
 };
 #endif

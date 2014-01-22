@@ -1,6 +1,11 @@
 #include "Lumiere.h"
 #include "Point.h"
 
+Lumiere::Lumiere(float x, float y, float z)
+{
+    m_point = new Point(x,y,z);
+}
+
 float Lumiere::getx() {
     return getPoint().getx();
 }

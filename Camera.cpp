@@ -2,6 +2,16 @@
 #include "Segment.h"
 #include "Scene.h"
 
+Camera::Camera(float tx, int res_x, int res_y, Point p2){
+
+     Point p1;
+
+     taille_x = tx;
+     taille_y = ((tx*res_y)/res_x);
+     m_segment = new Segment(&p1, &p2);
+     PointHaut = new Point(0,1,0);
+
+}
 
 Point Camera::getCoin() {
     Point p;
@@ -35,5 +45,9 @@ void Camera::setTailley(float ty) {
 
 float Camera::getTaillex() {
     return this->taille_x;
+}
+
+float Camera::getFocale() {
+    return this->m_segment->getPoint2().getz();
 }
 

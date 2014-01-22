@@ -35,5 +35,7 @@ class Point {
 
     void setz(float z);
 
+    Point projeter(float zp);
+
 };
 #endif

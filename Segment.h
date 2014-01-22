@@ -3,7 +3,6 @@
 
 
 class Point;
-class Cylindre;
 class Camera;
 
 class Segment {
@@ -14,6 +13,7 @@ class Segment {
    float gettaille();
    Point getPoint1();
    Point getPoint2();
+   Segment projeter(float zp);
 
   private:
     Point * point1, * point2;

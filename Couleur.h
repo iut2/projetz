@@ -21,8 +21,9 @@ class Couleur {
     int getRouge();
     int getVert();
     int getBleu();
-    Couleur(int r, int v, int b);
+    Couleur(int r=0, int v=0, int b=0);
 
+	void setcouleur(int r, int v, int b);
 
 
 

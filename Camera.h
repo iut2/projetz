@@ -36,6 +36,9 @@ class Camera {
 
 
   public:
+
+    Camera(float tx, int res_x, int res_y, Point p2);
+
     void calculAttributs();
 
     float setPas(float p);
@@ -47,6 +50,8 @@ class Camera {
     float getTaillex();
 
     float getPas();
+
+    float getFocale();
 
 };
 #endif

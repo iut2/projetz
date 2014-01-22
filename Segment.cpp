@@ -27,3 +27,15 @@ float Segment::gettaille()
    Point Segment::getPoint2(){
         return *point2;
    }
+
+   Segment Segment::projeter(float zp) {
+        Point p1 = this->getPoint1();
+        Point p2 = this->getPoint2();
+
+        p1 = p1.projeter(zp);
+        p2 = p2.projeter(zp);
+
+        Segment seg(&p1,&p2);
+
+        return seg;
+   }

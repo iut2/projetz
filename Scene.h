@@ -4,8 +4,12 @@
 #include <vector>
 #include "Objet.h"
 #include "Couleur.h"
+#include "Segment.h"
+#include "Sphere.h"
+#include "Cylindre.h"
 #include <wx/wx.h>
 #include <wx/image.h>
+#include <map>
 
 
 using namespace std;
@@ -15,8 +19,6 @@ class Camera;
 class Image;
 class Point;
 class Lumiere;
-class Sphere;
-class Cylindre;
 
 //définition de la variable pi
 #ifndef M_PI
@@ -41,10 +43,15 @@ class Scene {
     vector<Sphere> zbuffer_s;
 	vector<Cylindre> zbuffer_c;
 
+	map<int,Sphere> mapSpheres;
+
 
   public:
     wxImage rendu(int resx, int resy);
-    wxImage renduSimple(int resx, int resy);
+    Scene() ;
+    Sphere chercheSphere(int i);
+  //  Scene(Point p2,float tx, int res_x, int res_y, float x, float y, float z);
+
 
   private:
 
@@ -52,7 +59,7 @@ class Scene {
     Couleur calculCouleur(const Point & pt);
 
 	void actualiser(int resx, int resy);
-	bool compare(Objet obja, Objet objb); //retourne vrai si obja > objb
+	bool compare(Objet * obja, Objet * objb); //retourne vrai si obja > objb
 
   public:
 
@@ -71,7 +78,17 @@ Molecule rotationMolecule(Molecule m, float angleX, float angleY, float angleZ);
 
 Molecule retourRepAvBary(Molecule m);
 
-void dessineSeg(Segment s, wxImage &img);
+wxImage renduSimple(vector<Segment> listeSeg);
+
+Molecule projeter();
+
+vector<Segment> getObjEcran();
+
+void initMolecule();
+
+void setMolecule(Molecule mol);
+
+void enregSphere(Sphere * sp, int num);
 
 };
 #endif

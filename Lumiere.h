@@ -9,6 +9,9 @@ class Lumiere {
 
 
   public:
+
+    Lumiere(float x, float y, float z);
+
     float getx();
 
     float gety();
